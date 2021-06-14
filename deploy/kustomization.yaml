@@ -19,5 +19,3 @@ images:
 - name: guestbook
   newName: guestbook
   newTag: new
-- name: public.ecr.aws/i1e1h7n6/guestbook-public/guestbook_public
-  newTag: 0403f9657ba7de12565b1c077b71b2dde77c0445
