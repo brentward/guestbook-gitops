@@ -21,7 +21,6 @@ env:
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   CONTAINER_IMAGE: guestbook:${{ github.sha }}
-  CONTAINER_IMAGE_PUBLIC: guestbook_public:${{ github.sha }}
 
 jobs:
   build-and-push:
@@ -44,14 +43,14 @@ jobs:
         # Build and tag the image
         docker build \
           -t $CONTAINER_IMAGE \
-          -t public.ecr.aws/i1e1h7n6/$CONTAINER_IMAGE_PUBLIC ./php-redis
+          -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$CONTAINER_IMAGE ./php-redis
  
     # Set image tag in kustomization
 
     - name: Set image tag
       run: |
           cd deploy
-          kustomize edit set image public.ecr.aws/i1e1h7n6/guestbook-public/$CONTAINER_IMAGE_PUBLIC 
+          kustomize edit set image $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$CONTAINER_IMAGE
           cat kustomization.yaml
     - name: Commit kustomization
       run: |
@@ -72,4 +71,4 @@ jobs:
       if: github.ref == 'refs/heads/master'
       run: |
         # Push image to AWS ECR
-        docker push public.ecr.aws/i1e1h7n6/$CONTAINER_IMAGE_PUBLIC 
+        docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$CONTAINER_IMAGE

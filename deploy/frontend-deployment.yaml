@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: php-redis
-        image: public.ecr.aws/i1e1h7n6/guestbook-public 
+        image: 826878696488.dkr.ecr.us-west-2.amazonaws.com/guestbook:162f241285de0ddbd0b0137d0a4b8f15834c894a 
         # update image value with the image URI of the container registry  
         resources:
           requests:
